@@ -26,7 +26,7 @@ export default function Home() {
   }
 
   const [Over, setOver] = useState(false)
-  let Time = 1000
+  let Time = 300
   const [Score, setScore] = useState(0)
   const [CurrentX, setCurrentX] = useState(0)
   const [CurrentY, setCurrentY] = useState(0)
@@ -148,10 +148,6 @@ export default function Home() {
       setSnake(prev => [...prev, [Snake[Snake.length - 1][0], Snake[Snake.length - 1][1]] - 1])
     }
     setFood([])
-  }
-
-  if (Score > 1) {
-    Time = 500
   }
 
   if (Eaten === true) {
