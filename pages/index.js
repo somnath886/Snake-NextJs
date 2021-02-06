@@ -26,7 +26,8 @@ export default function Home() {
   }
 
   const [Over, setOver] = useState(false)
-  let Time = 300
+  let Time = 17
+  const [Screen, setScreen] = useState(0)
   const [Score, setScore] = useState(0)
   const [CurrentX, setCurrentX] = useState(0)
   const [CurrentY, setCurrentY] = useState(0)
@@ -53,14 +54,6 @@ export default function Home() {
     setScore(0)
     alert("Game Over")
   }
-  else if (Over === true) {
-    setCurrentX(0)
-    setCurrentY(0)
-    setPressedKey("Reset")
-    setScore(0)
-    setOver(false)
-    alert("Game Over")
-  }
 
   useEffect(() => {
     let match = 0
@@ -69,57 +62,69 @@ export default function Home() {
         match++
       }
     })
-    console.log(match)
     if (match > 1) {
       setOver(true)
     }
     const interval = setInterval(() => {
-      switch(pressedKey) {
-        case "Up":
-          setCurrentX(prev => prev -= 1)
-          let pos1 = Snake
-          pos1.pop()
-          pos1.unshift([CurrentX - 1, CurrentY])
-          setSnake(pos1)
-          break
-        case "Down":
-          setCurrentX(prev => prev += 1)
-          let pos2 = Snake
-          pos2.pop()
-          pos2.unshift([CurrentX + 1, CurrentY])
-          setSnake(pos2)
-          break
-        case "Left":
-          setCurrentY(prev => prev -= 1)
-          let pos3 = Snake
-          pos3.pop()
-          pos3.unshift([CurrentX, CurrentY - 1])
-          setSnake(pos3)
-          break
-        case "Right":
-          setCurrentY(prev => prev += 1)
-          let pos4 = Snake
-          pos4.pop()
-          pos4.unshift([CurrentX, CurrentY+1])
-          setSnake(pos4)
-          break
-        case "Reset":
-          setSnake([[CurrentX, CurrentY]])
-          setPressedKey("")
-          break
-        default:
-          setCurrentY(prev => prev += 1)
-          let pos5 = Snake
-          pos5.pop()
-          pos5.unshift([CurrentX, CurrentY+1])
-          setSnake(pos5)
-          break
-      }   
+      if (Over === true) {
+        // setCurrentX(0)
+        // setCurrentY(0)
+        setPressedKey("Reset")
+        setScore(0)
+        alert("Game Over")
+      }
+      setOver(false)
+      setScreen(p => p += 1)
+      if (Screen === 20) {
+        console.log(Screen)
+        switch(pressedKey) {
+          case "Up":
+            setCurrentX(prev => prev -= 1)
+            let pos1 = Snake
+            pos1.pop()
+            pos1.unshift([CurrentX - 1, CurrentY])
+            setSnake(pos1)
+            break
+          case "Down":
+            setCurrentX(prev => prev += 1)
+            let pos2 = Snake
+            pos2.pop()
+            pos2.unshift([CurrentX + 1, CurrentY])
+            setSnake(pos2)
+            break
+          case "Left":
+            setCurrentY(prev => prev -= 1)
+            let pos3 = Snake
+            pos3.pop()
+            pos3.unshift([CurrentX, CurrentY - 1])
+            setSnake(pos3)
+            break
+          case "Right":
+            setCurrentY(prev => prev += 1)
+            let pos4 = Snake
+            pos4.pop()
+            pos4.unshift([CurrentX, CurrentY+1])
+            setSnake(pos4)
+            break
+          case "Reset":
+            setSnake([[CurrentX, CurrentY]])
+            setPressedKey("")
+            break
+          default:
+            setCurrentY(prev => prev += 1)
+            let pos5 = Snake
+            pos5.pop()
+            pos5.unshift([CurrentX, CurrentY+1])
+            setSnake(pos5)
+            break
+        }
+        setScreen(0)
+      }  
     }, Time)    
     return () => {
       clearInterval(interval)
     };
-  }, [CurrentX, CurrentY, pressedKey, Snake])
+  }, [CurrentX, CurrentY, pressedKey, Snake, Screen])
 
   useEffect(() => {
     const intervalTwo = setInterval(() => {
